@@ -34,7 +34,7 @@ def compute_invariants(n, jobs=None):
     while n > 0:
         if is_squarefree(i):
             ds.append(i)
-            n -= 1
+        n -= 1
         i += 1
 
         if n-1 > 0 & (i % 10 == 0):
@@ -64,8 +64,14 @@ def main(n=-1):
         plot_invariants(invariants)
     inv_spikes = plot_fu_spikes(invariants)
 
-    to_csv(invariants, inv_spikes, 'invariants_data.json')
+    to_csv(invariants, inv_spikes, 'invariants_data.csv', "fu_spikes.csv")
 
+def to_csv(invariants, inv_spikes, datafile, spikesfile):
+    to_store = [["d", "dK", "hK", "fu", "rK", "mb"]]
+    for field in invariants:
+        to_store.append(invariants[field])
+    np.savetxt(datafile, to_store, delimiter=',', fmt="%s")
+    np.savetxt(spikesfile, [inv_spikes[0], inv_spikes[1]], delimiter=',', fmt="%s")
 
 
 #def to_json(invariants, inv_spikes, filename):
