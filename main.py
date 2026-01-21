@@ -1,9 +1,12 @@
 from sage.all import *
 import json
+import os
 import multiprocessing as mp
 import numpy as np
 from plot_invariants import *
 from track_fu_spikes import *
+
+os.makedirs("data", exist_ok=True)
 
 JOBS = mp.cpu_count()
 
@@ -69,7 +72,7 @@ def main(n=-1, batch_size=10000):
 
     for i in range(0, num_invl):
         invariants = compute_invariants([rng[i], rng[i+1]])
-        csv_name = "invariants_data_" + str(i+1) + ".csv"
+        csv_name = os.path.join("data", "invariants_data_" + str(i+1) + ".csv")
         to_csv(invariants, csv_name)
         del(invariants)
         print("Batch " + str(i+1) + "/" + str(num_invl) + " done")
