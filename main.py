@@ -1,5 +1,6 @@
 from sage.all import *
 import json
+import time
 import os
 import multiprocessing as mp
 import numpy as np
@@ -56,7 +57,7 @@ def compute_invariants(nums, jobs=JOBS):
 
     return invariants
 
-def main(n=-1, batch_size=10000):
+def main(n=-1, batch_size=1000):
     if n == -1:
         n = int(input("Enter the number of fields to compare: "))
         while not (isinstance(n, int)) and not (n > 0):
@@ -70,12 +71,15 @@ def main(n=-1, batch_size=10000):
     for i in range(0, num_invl+1):
         rng.append(invl * i)
 
+    total_start = time.perf_counter()
     for i in range(0, num_invl):
+        batch_start = time.perf_counter()
         invariants = compute_invariants([rng[i], rng[i+1]])
         csv_name = os.path.join("data", "invariants_data_" + str(i+1) + ".csv")
         to_csv(invariants, csv_name)
         del(invariants)
-        print("Batch " + str(i+1) + "/" + str(num_invl) + " done")
+        batch_stop = time.perf_counter()
+        print("Batch " + str(i+1) + "/" + str(num_invl) + " done in " + str(batch_stop - batch_start) + " seconds (" + str(batch_stop - total_start) + " seconds from program start")
 
     print("All computations have completed.")
     #if n < 10000:
