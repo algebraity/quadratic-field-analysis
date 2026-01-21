@@ -1,0 +1,11 @@
+Tracking memory used by program
+Parameters: n=40,000, batch_size=1000, total batches = n/((4 cpus)*(1000)) = 10
+
+batch #		RAM used before start (GB)	RAM used at end (GB)
+1		2.40				2.62
+2		2.53				2.74
+3		2.44				3.08
+4		2.61				3.21
+5		2.48				3.12
+6		2.55				3.52
+7		2.55				
